@@ -1,0 +1,42 @@
+'''Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+Example 1:
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+Example 2:
+Input: "cbbd"
+Output: "bb" '''
+
+
+class Solution:
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        '''1.采用由中间向两边扩展的方法。2.如果两个字符相等，则连接起来，否则查看左右是否相等'''
+        tmp = s[0]
+        maxstr = s[0]
+        for i in range(len(s)-1):
+            if s[i] == s[i+1]:
+                tmp += s[i+1]                 
+            else:
+                j = 1
+                flag = 1
+                tmp_length = len(tmp)
+                while ((i-tmp_length-j+1>=0) & (i+j < len(s)) & flag):
+                    if s[i-tmp_length-j+1] == s[i+j]:
+                        tmp = s[i-tmp_length-j+1]+tmp+s[i+j]
+                    else:
+                        flag = 0
+                        if(len(tmp)>len(maxstr)):
+                            maxstr = tmp      
+                    j += 1
+                if(len(tmp)>len(maxstr)):
+                    maxstr = tmp
+                tmp = s[i+1]            
+                    
+        if(len(tmp)>len(maxstr)):
+            maxstr = tmp  
+        
+        return maxstr
