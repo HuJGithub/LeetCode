@@ -1,0 +1,29 @@
+'''Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+Example:
+Input: "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+Note:
+Although the above answer is in lexicographical order, your answer could be in any order you want.'''
+
+
+class Solution:
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        '''用递归的方法实现，如果长度等于1，则返回单个字符的列表，否则将第一个元素取出，然后再调用递归函数实现'''
+        storelist = []
+        Digitmap = ['0','1','abc','def','ghi','jkl','mno','pqrs','tuv','wxyz']
+        if len(digits)==0:
+            return [] 
+        if len(digits)==1:
+            return list(Digitmap[int(digits[0])])
+        fir = list(Digitmap[int(digits[0])])
+        sec = self.letterCombinations(digits[1:])
+        for i in fir:
+            for j in sec:
+                storelist.append(i+j)
+        return storelist
