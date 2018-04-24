@@ -1,0 +1,37 @@
+'''Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses. 
+For example, given n = 3, a solution set is: 
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]'''
+
+'''通过递归的方法来实现，使用的左括号数量必须比右括号多'''
+class Solution:
+    def gpt(self,n1,n2,L,s):
+        if n1==0:
+            s+= n2*')'
+            return s
+        if n1==n2:
+            n1-=1
+            s+='('
+            tmp=self.gpt(n1,n2,L,s)
+            L.append(tmp)
+        else:
+            tmp=self.gpt(n1-1,n2,L,s+'(')
+            L.append(tmp)
+            tmp1=self.gpt(n1,n2-1,L,s+')')
+            L.append(tmp1)
+            
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        L=[]
+        s=''
+        n1,n2=n,n
+        self.gpt(n1,n2,L,s)
+        return [x for x in L if x is not None]
