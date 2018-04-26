@@ -1,0 +1,35 @@
+'''
+Pick One
+
+Implement strStr().
+Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+Example 1:
+Input: haystack = "hello", needle = "ll"
+Output: 2
+Example 2:
+Input: haystack = "aaaaa", needle = "bba"
+Output: -1
+Clarification:
+What should we return when needle is an empty string? This is a great question to ask during an interview.
+For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
+'''
+
+class Solution:
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        '''如果发现needle的第一位与haystack某一位相同，则继续比较下去，返回j，否则继续循环直到最后'''
+        length=len(needle)
+        length1=len(haystack)
+        if length==0:
+            return 0
+
+        for j in range(len(haystack)):
+            if length1-j<length:
+                return -1
+            if needle==haystack[j:j+length]:           
+                return j
+        return -1
