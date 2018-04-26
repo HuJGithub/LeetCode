@@ -1,0 +1,44 @@
+'''
+Given two integers dividend and divisor, divide two integers without using multiplication, division and mod operator.
+Return the quotient after dividing dividend by divisor.
+The integer division should truncate toward zero.
+Example 1:
+Input: dividend = 10, divisor = 3
+Output: 3
+Example 2:
+Input: dividend = 7, divisor = -3
+Output: -2
+Note:
+Both dividend and divisor will be 32-bit signed integers.
+The divisor will never be 0.
+Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 231 − 1 when the division result overflows.
+'''
+
+class Solution:
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        '''用减法实现，如果比除数大，则除数左移一位'''
+        if divisor==0 or (dividend ==-2147483648 and divisor == -1):
+            return 2147483647
+        sign = (dividend < 0) ^ (divisor > 0) or (dividend > 0) ^ (divisor < 0)
+        a=abs(dividend)
+        b=abs(divisor)
+        total=0
+        times=1
+        while a>b:
+            tmp=b
+            while a-tmp>0:
+                tmp=tmp<<1
+                times=times<<1
+            times=times>>1
+            total+=times
+            times=1
+            tmp=tmp>>1
+            a-=tmp
+        if a==b:
+            total+=1
+        return total if sign==1 else -total
