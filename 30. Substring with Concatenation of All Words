@@ -1,0 +1,64 @@
+'''
+You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+Example 1:
+Input:
+  s = "barfoothefoobarman",
+  words = ["foo","bar"]
+Output: [0,9]
+Explanation: Substrings starting at index 0 and 9 are "barfoor" and "foobar" respectively.
+The output order does not matter, returning [9,0] is fine too.
+Example 2:
+Input:
+  s = "wordgoodstudentgoodword",
+  words = ["word","student"]
+Output: []
+'''
+
+import copy
+class Solution:
+    def findSubstring(self, s, words):
+        """
+        :type s: str
+        :type words: List[str]
+        :rtype: List[int]
+        """
+        '''将字符串划分成[0,k]开始的组，然后每组分别与words比较，使用字典来判断'''
+        length=len(words[0])
+        length1=len(s)
+        ldivide=[]
+        
+        timestmp={}
+        for word in words:
+            if word in timestmp:
+                timestmp[word]+=1
+            else:
+                timestmp[word]=1
+        times=timestmp.copy()
+        
+        rl=[]
+        for i in range(length):
+            k=i
+            while k<length1:
+                ldivide.append(s[k:k+length])
+                k+=length
+            j=0
+            
+            while j<len(ldivide) and len(ldivide)-j>=len(words):
+                va=ldivide[j]
+                if va in times and times[va]!=0:
+                    
+                    m=j
+                    times[va]-=1
+                    
+                    while max(times.values())>0:
+                        if ldivide[m+1] not in times or times[ldivide[m+1]]==0:
+                            break
+                        times[ldivide[m+1]]-=1
+                        m+=1
+                    
+                    if max(times.values())==0:                        
+                        rl.append(j*length+i)
+                j+=1
+                times=timestmp.copy()
+            ldivide=[]
+        return rl
