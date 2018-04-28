@@ -1,0 +1,43 @@
+'''
+Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+Your algorithm's runtime complexity must be in the order of O(log n).
+If the target is not found in the array, return [-1, -1].
+Example 1:
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+Example 2:
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+'''
+
+class Solution:
+    def findIndex(self,l,r,nums,target,rl):
+        if l<=r:
+            m=(l+r)//2
+            if target==nums[m]:
+                if m<rl[0]:
+                    rl[0]=m
+                    self.findIndex(l,m-1,nums,target,rl)
+                if m>rl[1]:
+                    rl[1]=m
+                    self.findIndex(m+1,r,nums,target,rl)
+            elif target<nums[m]:
+                self.findIndex(l,m-1,nums,target,rl)
+            else:
+                self.findIndex(m+1,r,nums,target,rl)
+        return
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        if nums==[]:
+            return [-1,-1]
+        l=0
+        r=len(nums)-1
+        rl=[len(nums),-1]
+        self.findIndex(l,r,nums,target,rl)
+        if rl[0]>rl[1]:
+            rl[0]=-1
+        return rl
