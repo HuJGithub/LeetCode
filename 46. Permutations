@@ -1,0 +1,34 @@
+'''
+Given a collection of distinct integers, return all possible permutations.
+Example:
+Input: [1,2,3]
+Output:
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+'''
+
+'''递归的时候，不要修改变量自身，用tmp+[nums[i]],nums[:i]+nums[i+1:]来解决'''
+class Solution:
+    def subpermute(self,rl,tmp,nums):
+        if nums==[]:   
+            rl.append(tmp)
+            return
+        
+        for i in range(len(nums)):
+            self.subpermute(rl,tmp+[nums[i]],nums[:i]+nums[i+1:])
+
+        return
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        rl=[]
+        self.subpermute(rl,[],nums)
+        return rl
