@@ -1,0 +1,29 @@
+'''
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+Example:
+Input: [1,1,2]
+Output:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+'''
+
+class Solution:
+    def subpermute(self,rl,tmp,nums):
+        if nums==[]:
+            rl.append(tmp)
+            return
+        for i in range(len(nums)):
+            if nums[i] not in nums[:i]:
+                self.subpermute(rl,tmp+[nums[i]],nums[:i]+nums[i+1:])
+        return
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        rl=[]
+        self.subpermute(rl,[],nums)
+        return rl
