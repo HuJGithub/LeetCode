@@ -1,0 +1,43 @@
+'''
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+
+Given an integer n, return the number of distinct solutions to the n-queens puzzle.
+Example:
+Input: 4
+Output: 2
+Explanation: There are two distinct solutions to the 4-queens puzzle as shown below.
+[
+ [".Q..",  // Solution 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // Solution 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+'''
+
+class Solution:
+    def isvalid(self,k,j,tmp):
+        for i in range(len(tmp)):
+            if j==tmp[i] or abs(k-i)==abs(j-tmp[i]):
+                return False
+        return True
+    
+    def solveN(self,k,n,tmp):
+        if k==n:
+            self.rl+=1
+            return 
+        for j in range(n):
+            if self.isvalid(k,j,tmp):
+                self.solveN(k+1,n,tmp+[j])
+        return 
+    
+    def totalNQueens(self, n):
+        
+        self.rl=0
+        self.solveN(0,n,[])
+        
+        return self.rl       
