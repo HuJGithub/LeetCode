@@ -1,0 +1,48 @@
+'''
+Validate if a given string is numeric.
+Some examples:
+"0" => true
+" 0.1 " => true
+"abc" => false
+"1 a" => false
+"2e10" => true
+Note: It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one.
+Update (2015-02-10):
+The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button to reset your code definition.
+'''
+
+class Solution:
+    def isNumber(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        s=s.strip()
+        if s=='':
+            return False
+        if s[0]=='+' or s[0]=='-':
+            s=s[1:]
+        n=len(s)
+        ise=0
+        isd=0
+        iso=0
+        hasn=0
+        for i in range(n):
+            if s[i] not in '0123456789e.+-':
+                return False
+            if s[i] in '0123456789':
+                hasn=1
+            if s[i]=='+' or s[i]=='-':
+                if iso==1 or ise==0 or i==n-1:
+                    return False
+                iso=1
+            if s[i]=='e':
+                if ise==1 or hasn==0 or i==n-1:
+                    return False
+                ise=1
+            elif s[i]=='.':
+                if isd==1 or (i==n-1 and hasn==0) or ise==1:
+                    return False
+                isd=1
+        return True
