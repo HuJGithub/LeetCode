@@ -1,0 +1,52 @@
+...
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+Example:
+Input: S = "ADOBECODEBANC", T = "ABC"
+Output: "BANC"
+Note:
+If there is no such window in S that covers all characters in T, return the empty string "".
+If there is such window, you are guaranteed that there will always be only one unique minimum window in S.
+...
+
+'''统计目标串字符数量，根据s中字符值进行count操作，如果找到一个子串，排除start开始的多余字符，确定一个win。
+第二步，开始后移字符，每次移动一个，然后start进行排除多余字符，最后返回最短win'''
+class Solution:
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        start,end,count,begin=0,-1,0,0
+        win=len(s)
+        tnum={}
+        snum={}
+        for c in t:
+            tnum[c]= 1 if c not in tnum else tnum[c]+1
+        
+        for i in range(len(s)):
+            if s[i] not in snum:
+                snum[s[i]]=0
+                
+            if s[i] in tnum and snum[s[i]]<tnum[s[i]]:
+                    count+=1
+                    
+            snum[s[i]]+=1
+            
+            if count==len(t):
+                print(1)
+                while start<i and (s[start] not in tnum or snum[s[start]]>tnum[s[start]]):
+                    snum[s[start]]-=1
+                    start+=1    
+                
+                if i-start+1<=win:
+                    win=i-start+1
+                    begin=start
+                    end=i
+                    
+                count-=1
+                snum[s[start]]-=1
+                start+=1
+                
+        return '' if end==-1 else s[begin:end+1]
+                
