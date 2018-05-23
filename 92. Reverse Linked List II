@@ -1,0 +1,33 @@
+...
+Reverse a linked list from position m to n. Do it in one-pass.
+Note: 1 ≤ m ≤ n ≤ length of list.
+Example:
+Input: 1->2->3->4->5->NULL, m = 2, n = 4
+Output: 1->4->3->2->5->NULL
+...
+
+class Solution:
+    def reverseBetween(self, head, m, n):
+        """
+        :type head: ListNode
+        :type m: int
+        :type n: int
+        :rtype: ListNode
+        """
+        fakehead=ListNode(0)
+        fakehead.next=head
+        pre1=fakehead
+        for i in range(1,m):
+            pre1=head
+            head=head.next
+        p=head
+        tmp=head
+        pre2=None
+        for j in range(n-m+1):
+            p=p.next
+            head.next=pre2
+            pre2=head
+            head=p
+        pre1.next=pre2
+        tmp.next=head
+        return fakehead.next
