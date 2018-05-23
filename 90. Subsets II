@@ -1,0 +1,44 @@
+...
+Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
+Note: The solution set must not contain duplicate subsets.
+Example:
+Input: [1,2,2]
+Output:
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+...
+
+'''第一种是递归，第二种方法是直接循环'''
+class Solution:
+    def recurfun(self,nums,tmp,rl,i):
+        
+        
+        rl.append(tmp)
+        for j in range(i,len(nums)):
+            if j>i and nums[j]==nums[j-1]:
+                continue
+            self.recurfun(nums,tmp+[nums[j]],rl,j+1)
+        return
+        
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        nums.sort()
+        '''rl=[[]]
+        for n in nums:
+            tmp=[]
+            for c in rl:
+                if c+[n] not in rl and c+[n] not in tmp:
+                    tmp.append(c+[n])
+            rl.extend(tmp)'''
+        rl=[]
+        self.recurfun(nums,[],rl,0)
+        return rl
