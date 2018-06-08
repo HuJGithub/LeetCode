@@ -12,6 +12,7 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
    /   /
  -10  5
 ...
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
@@ -26,23 +27,23 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 #         self.right = None
 
 class Solution:
-    def sortedLToB(self,nums,s,e):
-        if s>e:
+    def sortedLToB(self,begin,end):
+        if begin==end:
             return None
-        mid=(s+e)//2
-        root=TreeNode(nums[mid])
-        root.left=self.sortedLToB(nums,s,mid-1)
-        root.right=self.sortedLToB(nums,mid+1,e)
+        slow,fast=begin,begin
+        
+        while fast!=end and fast.next!=end:
+            slow=slow.next
+            fast=fast.next.next
+            
+        root=TreeNode(slow.val)
+        root.left=self.sortedLToB(begin,slow)
+        root.right=self.sortedLToB(slow.next,end)
         return root
     def sortedListToBST(self, head):
         """
         :type head: ListNode
         :rtype: TreeNode
         """
-        
-        nums=[]
-        while head:
-            nums.append(head.val)
-            head=head.next
-        root=self.sortedLToB(nums,0,len(nums)-1)
+        root=self.sortedLToB(head,None)
         return root
