@@ -1,0 +1,96 @@
+...
+Given a binary tree, flatten it to a linked list in-place.
+For example, given the following tree:
+    1
+   / \
+  2   5
+ / \   \
+3   4   6
+The flattened tree should look like:
+1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6
+...
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def flatten(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        stack,ls,cur=[root],[],root
+        if root==None:
+            return 
+        while stack!=[]:
+            cur=stack.pop()
+            if cur.right:
+                stack.append(cur.right)
+            if cur.left:
+                stack.append(cur.left)
+            if stack!=[]:
+                cur.right=stack[-1]
+            cur.left=None
+        return
+
+'''The idea is very simple:
+flatten left subtree
+flatten right subtree
+concatenate root -> left flatten subtree -> right flatten subtree
+
+ public void flatten(TreeNode root) {
+     if(root == null)
+ 	return;
+ 	
+     flatten(root.left);
+     flatten(root.right);
+ 
+     // save current right for concatination
+     TreeNode right = root.right;
+ 
+     if(root.left != null) {
+     
+         // step 1: concatinate root with left flatten subtree
+     	root.right = root.left;
+     	root.left = null; // set left to null
+ 	
+     	// step 2: move to the end of new added flatten subtree
+     	while(root.right != null)
+     		root = root.right;
+ 		
+     	// step 3: contatinate left flatten subtree with flatten right subtree	
+     	root.right = right;
+     }
+ }'''
+
+'''
+   public void flatten(TreeNode root) {
+        if (root == null) return;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.push(root);
+        while (!stk.isEmpty()){
+            TreeNode curr = stk.pop();
+            if (curr.right!=null)  
+                 stk.push(curr.right);
+            if (curr.left!=null)  
+                 stk.push(curr.left);
+            if (!stk.isEmpty()) 
+                 curr.right = stk.peek();
+            curr.left = null;  // dont forget this!! 
+        }
+    }
+'''
