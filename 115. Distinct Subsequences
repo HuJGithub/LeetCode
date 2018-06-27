@@ -1,0 +1,61 @@
+...
+Given a string S and a string T, count the number of distinct subsequences of S which equals T.
+A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+Example 1:
+Input: S = "rabbbit", T = "rabbit"
+Output: 3
+Explanation:
+
+As shown below, there are 3 ways you can generate "rabbit" from S.
+(The caret symbol ^ means the chosen letters)
+
+rabbbit
+^^^^ ^^
+rabbbit
+^^ ^^^^
+rabbbit
+^^^ ^^^
+Example 2:
+Input: S = "babgbag", T = "bag"
+Output: 5
+Explanation:
+
+As shown below, there are 5 ways you can generate "bag" from S.
+(The caret symbol ^ means the chosen letters)
+
+babgbag
+^^ ^
+babgbag
+^^    ^
+babgbag
+^    ^^
+babgbag
+  ^  ^^
+babgbag
+    ^^^
+...
+class Solution:
+    def __init__(self):
+        self.num=0
+    def subnumDis(self,s1,s,i,l,t,ls):
+        if len(s1)>l:
+            return
+        if s1==t:
+            print(self.num)
+            self.num+=1
+            return
+       
+        for k in range(i,ls):
+            self.subnumDis(s1+s[k],s,k+1,l,t,ls)
+        return
+            
+    def numDistinct(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: int
+        """
+        l=len(t)
+        ls=len(s)
+        self.subnumDis('',s,0,l,t,ls)
+        return self.num
